@@ -1,0 +1,109 @@
+//	Lab 3 zadanie 1.1
+
+create table postac(
+id_postaci int PRIMARY KEY AUTO_INCREMENT, 
+nazwa char(40), 
+rodzaj enum('wiking', 'ptak', 'kobieta'), 
+data_ur date, 
+wiek int unsigned);
+
+//	Lab 3 zadanie 1.2
+
+INSERT INTO postac VALUES ('1', 'bjorn', 'wiking', '1950-30-09', '51');
+UPDATE `postac` SET `data_ur` = '1950-09-30' WHERE `postac`.`id_postaci` = 1;
+INSERT INTO postac VALUES ('2', 'drozd', 'ptak', '1999-04-25', '24');
+INSERT INTO postac VALUES ('3', 'tesciowa', 'kobieta', '1939-09-01', '82');
+
+//	Lab 3 zadanie 1.3
+
+UPDATE `postac` SET `data_ur` = '1933-09-01', `wiek` = '88' WHERE `postac`.`id_postaci` = 3;
+
+//	Lab 3 zadanie 2.1
+
+CREATE TABLE walizka (
+id_walizki int PRIMARY KEY AUTO_INCREMENT, 
+pojemnosc int unsigned, 
+kolor enum('rozowy', 'czerwony', 'teczowy', 'zolty'), 
+id_wlasciciela int, 
+FOREIGN KEY (id_wlasciciela) REFERENCES postac(id_postaci));
+
+//	Lab 3 zadanie 2.2
+
+ALTER TABLE `walizka` CHANGE `kolor` `kolor` ENUM('rozowy','czerwony','teczowy','zolty') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'rozowy';
+
+//	Lab 3 zadanie 2.3
+
+INSERT INTO walizka VALUES (DEFAULT, '50', 'rozowy', '1');
+INSERT INTO walizka VALUES (DEFAULT, '80', 'zolty', '3');
+
+//	Lab 3 zadanie 3.1
+
+CREATE TABLE izba(
+adres_budynku varchar(60), 
+nazwa_izby varchar(80), 
+metraz int unsigned NOT NULL, 
+wlasciciel int, 
+PRIMARY KEY(adres_budynku, nazwa_izby), 
+FOREIGN KEY (wlasciciel) REFERENCES postac(id_postaci));
+
+//	Lab 3 zadanie 3.2
+
+ALTER TABLE `izba` ADD `kolor_izby` CHAR(15) NOT NULL DEFAULT 'czarny' AFTER `wlasciciel`;
+
+//	Lab 3 zadanie 4.1
+
+CREATE TABLE przetwory(
+id_przetworu int PRIMARY KEY AUTO_INCREMENT, 
+rok_produkcji int(4) DEFAULT '1654', 
+id_wykonawcy int, 
+FOREIGN KEY (id_wykonawcy) REFERENCES postac(id_postaci), 
+zawartosc varchar(100), 
+dodatek varchar(100) DEFAULT 'papryczka chili', 
+id_konsumenta int, 
+FOREIGN KEY (id_konsumenta) REFERENCES postac(id_postaci));
+
+//	Lab 3 zadanie 4.2
+
+INSERT into przetwory VALUES (DEFAULT, 2022, 1, 'bigos', DEFAULT, 3);
+
+//	Lab 3 zadanie 5.1
+
+INSERT INTO postac VALUES (4, 'obelix', 'wiking', '1925-05-25', '97');
+INSERT INTO postac VALUES (5, 'asterix', 'wiking', '1915-07-23', '107');
+INSERT INTO postac VALUES (6, 'moryc', 'wiking', '1938-09-15', '84');
+INSERT INTO postac VALUES (7, 'boryc', 'wiking', '1978-04-25', '44');
+INSERT INTO postac VALUES (8, 'goryc', 'wiking', '1922-12-23', '100');
+
+//	Lab 3 zadanie 5.2
+
+CREATE TABLE statek(
+nazwa_statku varchar(50) PRIMARY KEY, 
+rodzaj_statku ENUM('barka', 'kajak', 'titanic'), 
+data_wodowania date, 
+max_ladownosci int unsigned);
+
+//	Lab 3 zadanie 5.3
+
+INSERT into statek VALUES ('victoria', 'titanic', '2003-01-03', '49');
+INSERT into statek VALUES ('brand', 'kajak', '1933-12-24', '65');
+
+//	Lab 3 zadanie 5.4
+
+alter table postac add funkcja varchar(100);
+
+//	Lab 3 zadanie 5.5
+
+update postac set funkcja='kapitan' where id_postaci='1';
+
+//	Lab 3 zadanie 5.6
+
+alter table postac add COLUMN statek varchar(50);
+alter table postac add FOREIGN KEY (statek) REFERENCES statek(nazwa_statku);
+
+//	Lab 3 zadanie 5.7
+
+update postac set funkcja='zaloga', statek='brand' WHERE rodzaj='wiking';
+
+//	Lab 3 zadanie 5.9
+
+drop table izba;
