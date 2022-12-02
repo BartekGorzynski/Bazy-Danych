@@ -1,0 +1,76 @@
+//	Lab 4 zadanie 1a
+
+DELETE FROM postac WHERE `id_postaci` = 8
+DELETE FROM postac WHERE `id_postaci` = 5
+
+//	Lab 4 zadanie 1b
+
+ALTER TABLE walizka drop FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE przetwory drop FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory drop FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac MODIFY id_postaci int;
+ALTER TABLE postac CHANGE id_postaci id_postaci int;
+ALTER TABLE postac drop PRIMARY KEY;
+
+//	Lab 4 zadanie 2a
+
+ALTER table postac add pesel char(11) FIRST;
+update postac set pesel='42153516723'+id_postaci;
+
+
+//	Lab 4 zadanie 2b
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking', 'ptak', 'kobieta', 'syrena');
+
+//	Lab 4 zadanie 2c
+
+INSERT INTO postac VALUES(42153516728, 5, 'Gertruda nieszczera', 'syrena', '1995-05-23', '28', 'null', 'brand');
+
+//	Lab 4 zadanie 3a
+
+UPDATE postac set statek='brand' where nazwa like '%a%';
+
+//	Lab 4 zadanie 3b
+
+UPDATE statek SET max_ladownosci=max_ladownosci*0.7 where data_wodowania > '1900-12-31' AND data_wodowania < '2001-01-01';
+
+//	Lab 4 zadanie 3c
+
+alter table postac ADD CHECK (wiek<=1000);
+
+//	Lab 4 zadanie 4a
+
+INSERT INTO postac VALUES('42153516730', '8', 'waz', null, '1982-08-19', '40', null, null);
+
+//	Lab 4 zadanie 4b/c
+
+CREATE TABLE marynarz LIKE postac;
+
+//	Lab 4 zadanie 5a
+
+UPDATE postac SET statek=null where statek='brand';
+
+//	Lab 4 zadanie 5b
+
+DELETE FROM postac where id_postaci='7';
+
+//	Lab 4 zadanie 5c
+
+DELETE FROM statek where max_ladownosci>=0;
+
+//	Lab 4 zadanie 5d
+
+ALTER TABLE `statek` DROP PRIMARY KEY;
+DROP TABLE statek;
+
+//	Lab 4 zadanie 5e
+
+CREATE TABLE zwierz(
+id int PRIMARY KEY AUTO_INCREMENT, 
+nazwa varchar(50), 
+wiek int);
+
+//	Lab 4 zadanie 5f
+
+INSERT into zwierz(nazwa, wiek) SELECT nazwa, wiek FROM postac where id_postaci='8';
+INSERT into zwierz(nazwa, wiek) SELECT nazwa, wiek FROM postac where id_postaci='2';
