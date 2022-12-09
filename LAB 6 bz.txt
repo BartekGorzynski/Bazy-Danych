@@ -21,3 +21,25 @@ SELECT AVG(waga) FROM  zasob where ilosc>=4 GROUP BY nazwa HAVING sum(waga)>=10;
 //	Lab 6 zadanie 2.3
 
 SELECT DISTINCT nazwa FROM zasob WHERE ilosc>1;
+
+//  Lab 6 zadanie 3.1 
+
+select * from kreatura k, ekwipunek e where k.idKreatury=e.idKreatury;
+#inny sposob
+select * from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury;
+
+//  Lab 6 zadanie 3.2
+
+select * from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury inner join zasob z on e.idZasobu=z.idZasobu;
+
+//  Lab 6 zadanie 3.3
+
+select * from kreatura k left join ekwipunek e on k.idKreatury=e.idKreatury where e.idKreatury is NULL; 
+
+//  Lab 6 zadanie 4.1 
+
+select kreatura.nazwa, zasob.nazwa from kreatura natural join ekwipunek inner join zasob on ekwipunek.idZasobu=zasob.idZasobu where year(dataUr) between 1670 and 1679 order by kreatura.nazwa;
+
+//  Lab 6 zadanie 4.2 (do poprawki)
+
+select kreatura.nazwa , zasob.nazwa from kreatura natural join ekwipunek inner join zasob on ekwipunek.idZasobu=zasob.idZasobu where zasob.rodzaj='jedzenie' limit 5;
